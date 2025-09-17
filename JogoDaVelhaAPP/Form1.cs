@@ -21,36 +21,34 @@ namespace JogoDaVelhaAPP
         private void btnJogo_Click(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
-            switch(jogador)
+            if (clickedButton.Text == "")
             {
-                case 1:
-                    clickedButton.Text = "X";
-                    clickedButton.ForeColor = Color.Red;
-                    lblJogador.ForeColor = Color.Blue;
-                    jogador++;
-                break;
-                case 2:
-                    clickedButton.Text = "O";
-                    clickedButton.ForeColor = Color.Blue;
-                    lblJogador.ForeColor = Color.Red;
-                    jogador--;
-                    break;
+                switch (jogador)
+                {
+                    case 1:
+                        clickedButton.Text = "X";
+                        clickedButton.ForeColor = Color.Red;
+                        lblJogador.ForeColor = Color.Blue;
+                        jogador++;
+                        break;
+                    case 2:
+                        clickedButton.Text = "O";
+                        clickedButton.ForeColor = Color.Blue;
+                        lblJogador.ForeColor = Color.Red;
+                        jogador--;
+                        break;
+                }
+                lblJogador.Text = "Jogador " + jogador.ToString() + " joga";
             }
-            clickedButton.Enabled = false;
-            lblJogador.Text = "Jogador " + jogador.ToString() + " joga";
         }
 
         private void btnComecar_Click(object sender, EventArgs e)
         {
-            btnJogo1.Enabled = true;
-            btnJogo2.Enabled = true;
-            btnJogo3.Enabled = true;
-            btnJogo4.Enabled = true;
-            btnJogo5.Enabled = true;
-            btnJogo6.Enabled = true;
-            btnJogo7.Enabled = true;
-            btnJogo8.Enabled = true;
-            btnJogo9.Enabled = true;
+            foreach (Control c in Controls)
+            {
+                if (c is Button b && b.Name.StartsWith("btnJogo"))
+                    b.Enabled = true;
+            }
             btnComecar.Enabled = false;
             btnRecomecar.Enabled = true;
             lblJogador.Text = "Jogador " + jogador.ToString() + " Joga";
@@ -59,24 +57,15 @@ namespace JogoDaVelhaAPP
 
         private void btnRecomecar_Click(object sender, EventArgs e)
         {
-            btnJogo1.Enabled = false;
-            btnJogo1.Text = "";
-            btnJogo2.Enabled = false;
-            btnJogo2.Text = "";
-            btnJogo3.Enabled = false;
-            btnJogo3.Text = "";
-            btnJogo4.Enabled = false;
-            btnJogo4.Text = "";
-            btnJogo5.Enabled = false;
-            btnJogo5.Text = "";
-            btnJogo6.Enabled = false;
-            btnJogo6.Text = "";
-            btnJogo7.Enabled = false;
-            btnJogo7.Text = "";
-            btnJogo8.Enabled = false;
-            btnJogo8.Text = "";
-            btnJogo9.Enabled = false;
-            btnJogo9.Text = "";
+            foreach(Control c in Controls)
+            {
+                if(c is Button b && b.Name.StartsWith("btnJogo"))
+                {
+                    b.Enabled = false;
+                    b.Text = "";
+                }
+            }
+            jogador = 1;
             btnComecar.Enabled = true;
             btnRecomecar.Enabled = false;
             lblJogador.Text = "Clique para começar o jogo";
