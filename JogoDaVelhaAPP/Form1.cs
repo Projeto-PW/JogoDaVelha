@@ -23,6 +23,7 @@ namespace JogoDaVelhaAPP
         private void btnJogo_Click(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
+            int playedButtons = 0;
             if (clickedButton.Text == "")
             {
                 int buttonNumber = int.Parse(clickedButton.Name.Split('_')[1]);
@@ -66,12 +67,25 @@ namespace JogoDaVelhaAPP
                            (jogador2.Contains(3) && jogador2.Contains(6) && jogador2.Contains(9)))
                         {
                             MessageBox.Show("Jogador 2 Venceu!");
-                            btnRecomecar_Click(sender, e, true);
+                            btnRecomecar_Click(sender, e);
                             lblJogador.ForeColor = Color.Blue;
                             lblJogador.Text = "O Jogador 2 Venceu!";
                             return;
                         }
                         break;
+                }
+                foreach(Control c in Controls)
+                {
+                    if (c is Button b && b.Name.StartsWith("btnJogo") && b.Text != "")
+                        playedButtons++;
+                }
+                if(playedButtons == 9)
+                {
+                    MessageBox.Show("Deu Velha!");
+                    btnRecomecar_Click(sender, e);
+                    lblJogador.ForeColor = Color.Black;
+                    lblJogador.Text = "Deu Velha!";
+                    return;
                 }
                 lblJogador.Text = "Jogador " + jogador.ToString() + " joga";
             }
@@ -82,10 +96,7 @@ namespace JogoDaVelhaAPP
             foreach (Control c in Controls)
             {
                 if (c is Button b && b.Name.StartsWith("btnJogo"))
-                {
                     b.Enabled = true;
-                    b.Text = "";
-                }
             }
             btnComecar.Enabled = false;
             btnRecomecar.Enabled = true;
@@ -93,17 +104,14 @@ namespace JogoDaVelhaAPP
             lblJogador.ForeColor = Color.Red;
         }
 
-        private void btnRecomecar_Click(object sender, EventArgs e, bool finishGame)
+        private void btnRecomecar_Click(object sender, EventArgs e)
         {
-            if(finishGame == false)
+            foreach(Control c in Controls)
             {
-                foreach (Control c in Controls)
+                if(c is Button b && b.Name.StartsWith("btnJogo"))
                 {
-                    if (c is Button b && b.Name.StartsWith("btnJogo"))
-                    {
-                        b.Enabled = false;
-                        b.Text = "";
-                    }
+                    b.Enabled = false;
+                    b.Text = "";
                 }
             }
             jogador = 1;
